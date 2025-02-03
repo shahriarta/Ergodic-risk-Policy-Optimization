@@ -14,35 +14,35 @@ The project extends classical LQR by incorporating **ergodic-risk constraints** 
 
 ## Problem Formulation
 We consider a discrete-time **stochastic linear system** with process noise:
-\[
+$$
 x_{t+1} = A x_t + B u_t + H w_{t+1}, \quad t \geq 0
-\]
-where \( x_t \) and \( u_t \) are the state and input vectors, and \( w_t \) represents i.i.d. process noise with potentially heavy tails.
+$$
+where $ x_t $ and $ u_t $ are the state and input vectors, and $ w_t $ represents i.i.d. process noise with potentially heavy tails.
 
 The standard LQR cost is given by:
-\[
+$$
 J(K) = \limsup_{T\to\infty} \frac{1}{T} \sum_{t=0}^{T} \mathbb{E}[ x_t^\top Q x_t + u_t^\top R u_t]
-\]
-where \( Q \geq 0 \) and \( R > 0 \) define the quadratic performance metric.
+$$
+where $ Q \geq 0 $ and $ R > 0 $ define the quadratic performance metric.
 
 ### Ergodic-Risk Constraints
 The **ergodic-risk criterion** is formulated to measure long-term risk using the **cumulative uncertainty variable**:
 \[
 C_t = g(x_t, u_t) - \mathbb{E}[ g(x_t, u_t) | \mathcal{F}_{t-1}]
 \]
-where \( g(x_t, u_t) \) is a risk functional. The objective is to optimize performance while ensuring:
+where $ g(x_t, u_t) $ is a risk functional. The objective is to optimize performance while ensuring:
 \[
 \gamma_N^2(K) \leq \bar\beta
 \]
-where \( \gamma_N^2(K) \) is the **asymptotic conditional variance** of the ergodic-risk criterion.
+where $ \gamma_N^2(K) $ is the **asymptotic conditional variance** of the ergodic-risk criterion.
 
 ## Implementation Details
 - **Primal-Dual Algorithm**: Solves the constrained policy optimization problem using gradient-based updates.
-- **Policy Optimization**: The optimal policy \( K^* \) is found by iteratively updating the controller gain using:
+- **Policy Optimization**: The optimal policy $ K^* $ is found by iteratively updating the controller gain using:
   \[
   K^*(\lambda) = -(R + B^\top P_{(K^*(\lambda),\lambda)} B)^{-1} B^\top P_{(K^*(\lambda),\lambda)} A
   \]
-  where \( P_{(K,\lambda)} \) satisfies a modified **Lyapunov equation**.
+  where $ P_{(K,\lambda)} $ satisfies a modified **Lyapunov equation**.
 - **Strong Duality**: Ensures convergence via complementary slackness in the dual problem.
 
 ## Usage
